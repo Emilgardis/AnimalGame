@@ -22,8 +22,8 @@ class Animal(object):
     def add_is(self, key, value=True):
         self.a_is.update({key: value})
 
-    def __repr__(self):
-        data = {"has": {}.update(self.a_has), "is": {}.update(self.a_is)}
+    def get(self):
+        data = {"has": self.a_has, "is": self.a_is}
         return {self.a_name: data}
 
 
@@ -62,9 +62,16 @@ class Game(object):
                 data_file,
                 indent=4,
                 sort_keys=True,
-                separators=(',', ':'
-                            ))
+                separators=(',', ':'),
+            )
 
     def add_animal(self, animal):
-        self.animals.append(animal)
+        self.animals.append(animal.get())
         with open(ANIMALSRC, "w") as data_file:
+            json.dump(
+                self.animals,
+                data_file,
+                indent=4,
+                sort_keys=True,
+                separators=(',', ':'),
+            )

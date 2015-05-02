@@ -1,0 +1,22 @@
+[
+    {
+        "cat":{
+            "has":{
+                "tail":true,
+                "whiskers":true
+            },
+            "is":{
+                "curious":true,
+                "flexible":true,
+                "four-legged":true,
+                "smart":true
+            }
+        }
+    },
+    {
+        "dog":{
+            "has":null,
+            "is":null
+        }
+    }
+]
