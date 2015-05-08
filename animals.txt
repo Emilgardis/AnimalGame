@@ -15,8 +15,49 @@
     },
     {
         "dog":{
-            "has":null,
-            "is":null
+            "has":{
+                "tail":true
+            },
+            "is":{}
+        }
+    },
+    {
+        "bat":{
+            "has":{
+                "tail":false,
+                "wings":true
+            },
+            "is":{}
+        }
+    },
+    {
+        "rat":{
+            "has":{
+                "tail":true
+            },
+            "is":{}
+        }
+    },
+    {
+        "cow":{
+            "has":{
+                "milk":true,
+                "tail":true
+            },
+            "is":{
+                "big":true
+            }
+        }
+    },
+    {
+        "beaver":{
+            "has":{
+                "fur":true,
+                "tail":true
+            },
+            "is":{
+                "brown":true
+            }
         }
     }
 ]
