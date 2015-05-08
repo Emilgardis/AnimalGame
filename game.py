@@ -26,6 +26,14 @@ class Animal(object):
         self.a_has = animal_has  # animal has
         self.a_is = animal_is  # animal is
 
+        if len(self.a_has) + len(self.a_is) == 0:
+            with open(ANIMALSRC, "r") as data_file:
+                data = json.load(data_file)
+            key_data = data[-1]
+            if self.a_name in key_data:
+                self.a_has = data[key_data[self.a_name]]
+                self.a_is = data[key_data[self.a_name]]
+
     @classmethod
     def loadjs(cls, a_data):
         """Used for loading animal from dict"""
@@ -62,7 +70,8 @@ class GuessAnimal(Animal):
         for animal in data:
             animal = Animal.loadjs(animal)
             # Elements matches
-            has_match = dict(set(animal.a_has.items()) & set(self.a_has.items()))
+            has_match = dict(
+                set(animal.a_has.items()) & set(self.a_has.items()))
             is_match = dict(set(animal.a_is.items()) & set(self.a_is.items()))
             matching[animal.a_name] = {"has": has_match, "is": is_match}
         return matching
@@ -73,15 +82,16 @@ class Game(object):
     def __init__(self):
         """initialize Game"""
         super(Game, self).__init__()
-        self.filestate = [None,None]
+        self.filestate = [None, None]
         self.current = {}
         self.questions = self.load_questions()
+        self.animals_index = {}
         self.animals = self.load_animals()
 
     def load_questions(self):
         try:
             with open(QUESTIONSRC, "r") as data_file:
-                self.filestate[0] == True
+                self.filestate[0]
                 return json.load(data_file)
         except:
             print "Cannot open json file {}".format(QUESTIONSRC)
@@ -92,7 +102,9 @@ class Game(object):
         try:
             with open(ANIMALSRC, "r") as data_file:
                 self.filestate[1] = True
-                return json.load(data_file)
+                data = json.load(data_file)
+                self.animals_index = data[-1]
+                return data[:-1]
         except:
             print "Cannot open json file {}".format(ANIMALSRC)
             self.filestate[1] = False
@@ -118,12 +130,15 @@ class Game(object):
             return
         with open(ANIMALSRC, "w") as data_file:
             json.dump(
-                self.animals,
+                self.animals + [self.animals_index],
                 data_file,
                 indent=4,
                 sort_keys=True,
                 separators=(',', ':'),
             )
+
+    def update_animal(self, animal):
+        pass
 
     def gameLoop(self):
         pass
@@ -137,9 +152,8 @@ if __name__ == "__main__":
     g.add_animal(dog)
     cat = g.animals["cat"]
     print("cat name: {}".format(cat.a_has))
-    guess = GuessAnimal() # Cat
+    guess = GuessAnimal()  # Cat
     guess.add_has("tail")
     guess.add_has("paws")
     guess.add_is("curious")
     print("matches:\n{}".format(guess.get_matches))
-
